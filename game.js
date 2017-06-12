@@ -19,7 +19,7 @@ var aiPlayer = "O";
 var origBoard = [];
 origBoard[1] = "O";
 origBoard[2] = 2;
-origBoard[3] = "O";
+origBoard[3] = 3;
 origBoard[4] = 4;
 origBoard[5] = 5;
 origBoard[6] = 6;
@@ -82,6 +82,7 @@ function minimax(newBoard, player){
 
 var bestSpot = minimax(origBoard, aiPlayer);
 
+console.log(origBoard);
 console.log("index: " + bestSpot.index);
 
 function loop(x)
