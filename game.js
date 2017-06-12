@@ -61,8 +61,8 @@ function AI(seed) {
 			var newBoard = board.clone();
 			newBoard.makeMove(this.marker, moves[move]);
 			currScore = this.minimax(newBoard, this.opponent);
-			console.log('Current score: ' + currScore);
-			console.log('Current move: ' + moves[move]);
+			//console.log('Current score: ' + currScore);
+			//console.log('Current move: ' + moves[move]);
 			if(currScore > bestScore) {
 				bestScore = currScore;
 				bestMove = moves[move];
@@ -223,10 +223,12 @@ var bDisabled = []; //stores the availability of the button
 for(var i=1; i<10; i++) bDisabled[i] = false; //all buttons are enabled in the beginning
 
 var isResult = false;
-var content = [];
-for (var i=1; i<10; i++) content[i] = 'n';
+//var content = [];
+//for (var i=1; i<10; i++) content[i] = 'n';
+var content = new Board();
 
 var xTurn = true; //X:true O:false
+var ai = new AI('O');
 
 function loop(x)
 {
@@ -237,7 +239,8 @@ function loop(x)
         button[x].style.webkitTransform = "rotateY(180deg)";
         
         if(xTurn){
-            content[x] = "X";
+            //content[x] = "X";
+            content.makeMove('X', [Math.floor((x-1)/3), (x-1)%3]);
 
             setTimeout(function(){
                 ctx[x].lineWidth = 3;
@@ -250,7 +253,8 @@ function loop(x)
                 ctx[x].closePath();
             }, 300);
         }else{
-            content[x] = "O";
+            console.log(ai.getBestMove(content));
+            content.makeMove('O', [Math.floor((x-1)/3), (x-1)%3]);
 
             setTimeout(function(){
                 ctx[x].lineWidth = 3;
@@ -261,7 +265,8 @@ function loop(x)
             }, 300);
         }
 
-        console.log(checkWin());
+        //console.log(checkWin());
+        /*
         xCheck = xTurn;
         if(checkWin()){
             console.log("WINNER");
@@ -275,6 +280,16 @@ function loop(x)
                 }, 700);
             }
         }
+        */
+        if(content.checkForWin()=='X'){
+            setTimeout(function() {
+                    alert("X has Won!");
+                }, 700);
+        }else if(content.checkForWin()=='O'){
+            setTimeout(function() {
+                    alert("O has Won!");
+                }, 700);
+        }
 
         xTurn = !xTurn;
         if(xTurn){
@@ -285,6 +300,7 @@ function loop(x)
     }
 }
 
+/*
 //check if current board state is a win
 function checkWin()
 {
@@ -330,3 +346,4 @@ function posDiagonalCheckWin()
     }
     return false;
 }
+*/
