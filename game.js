@@ -251,21 +251,23 @@ function loop(x)
             ctx[x].closePath();
         }, 300);
 
-        var bestMove = ai.getBestMove(content);
-        var row = parseInt(bestMove[0]);
-        var col = parseInt(bestMove[1]);
-        console.log(row);
-        console.log(col);
-        content.makeMove('O', [row, col]);
+        setTimeout(function() {
+            var bestMove = ai.getBestMove(content);
+            var row = parseInt(bestMove[0]);
+            var col = parseInt(bestMove[1]);
+            console.log(row);
+            console.log(col);
+            ctxPos = (row*3)+col+1;
+            button[ctxPos].style.webkitTransform = "rotateY(180deg)";
+            content.makeMove('O', [row, col]);
 
-        ctxPos = (row*3)+col+1;
-
-        setTimeout(function(){
-            ctx[ctxPos].lineWidth = 3;
-            ctx[ctxPos].beginPath();
-            ctx[ctxPos].arc(button[ctxPos].width/2, button[ctxPos].height/2, 40, 0, 2*Math.PI, false);
-            ctx[ctxPos].stroke();
-            ctx[ctxPos].closePath();
+            setTimeout(function(){
+                ctx[ctxPos].lineWidth = 3;
+                ctx[ctxPos].beginPath();
+                ctx[ctxPos].arc(button[ctxPos].width/2, button[ctxPos].height/2, 40, 0, 2*Math.PI, false);
+                ctx[ctxPos].stroke();
+                ctx[ctxPos].closePath();
+            }, 300);
         }, 300);
         /*
         if(xTurn){
