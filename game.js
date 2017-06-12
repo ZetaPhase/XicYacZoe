@@ -238,6 +238,36 @@ function loop(x)
         
         button[x].style.webkitTransform = "rotateY(180deg)";
         
+        content.makeMove('X', [Math.floor((x-1)/3), (x-1)%3]);
+
+        setTimeout(function(){
+            ctx[x].lineWidth = 3;
+            ctx[x].beginPath();
+            ctx[x].moveTo(15, 15);
+            ctx[x].lineTo(85, 85);
+            ctx[x].moveTo(85, 15);
+            ctx[x].lineTo(15, 85);
+            ctx[x].stroke();
+            ctx[x].closePath();
+        }, 300);
+
+        var bestMove = ai.getBestMove(content);
+        var row = parseInt(bestMove[0]);
+        var col = parseInt(bestMove[1]);
+        console.log(row);
+        console.log(col);
+        content.makeMove('O', [row, col]);
+
+        ctxPos = (row*3)+col+1;
+
+        setTimeout(function(){
+            ctx[ctxPos].lineWidth = 3;
+            ctx[ctxPos].beginPath();
+            ctx[ctxPos].arc(button[ctxPos].width/2, button[ctxPos].height/2, 40, 0, 2*Math.PI, false);
+            ctx[ctxPos].stroke();
+            ctx[ctxPos].closePath();
+        }, 300);
+        /*
         if(xTurn){
             //content[x] = "X";
             content.makeMove('X', [Math.floor((x-1)/3), (x-1)%3]);
@@ -252,9 +282,14 @@ function loop(x)
                 ctx[x].stroke();
                 ctx[x].closePath();
             }, 300);
+            
         }else{
-            console.log(ai.getBestMove(content));
-            content.makeMove('O', [Math.floor((x-1)/3), (x-1)%3]);
+            var bestMove = ai.getBestMove(content);
+            var row = parseInt(bestMove[0]);
+            var col = parseInt(bestMove[1]);
+            console.log(row);
+            console.log(col);
+            content.makeMove('O', [row, col]);
 
             setTimeout(function(){
                 ctx[x].lineWidth = 3;
@@ -264,7 +299,7 @@ function loop(x)
                 ctx[x].closePath();
             }, 300);
         }
-
+        */
         //console.log(checkWin());
         /*
         xCheck = xTurn;
