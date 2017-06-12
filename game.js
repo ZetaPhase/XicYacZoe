@@ -13,6 +13,77 @@ for (var i=1; i<10; i++) content[i] = 'n';
 
 var xTurn = true; //X:true O:false
 
+var huPlayer = "X";
+var aiPlayer = "O";
+
+var origBoard = [];
+origBoard[1] = "O";
+origBoard[2] = 2;
+origBoard[3] = "O";
+origBoard[4] = 4;
+origBoard[5] = 5;
+origBoard[6] = 6;
+origBoard[7] = "X";
+origBoard[8] = 8;
+origBoard[9] = "X";
+
+function emptyIndexies(board){
+  return  board.filter(s => s != "O" && s != "X");
+}
+
+function minimax(newBoard, player){
+    var availSpots = emptyIndexies(newBoard);
+    if (checkWin()&&xTurn){
+        return {score:-10};
+    }else if(checkWin()&&!xTurn){
+        return {score:10};
+    }else if(availSpots.length === 0){
+        return {score:0};
+    }
+    var moves = [];
+    for (var i=0; i<availSpots.length; i++){
+        var move = {};
+        move.index = newBoard[availSpots[i]];
+
+        newBoard[availSpots[i]] = player;
+
+        if(player == aiPlayer){
+            var result = minimax(newBoard, huPlayer);
+            move.score = result.score;
+        }else{
+            var result = minimax(newBoard, aiPlayer);
+            move.score = result.score;
+        }
+
+        newBoard[availSpots[i]] = move.index;
+
+        moves.push(move);
+    }
+    var bestMove;
+    if(player == aiPlayer){
+        var bestScore = -10000;
+        for(var i=0; i<moves.length; i++){
+            if(moves[i].score>bestScore){
+                bestScore = moves[i].score;
+                bestMove= i;
+            }
+        }
+    }else{
+        var bestScore = 10000;
+        for(var i=0; i< moves.length; i++){
+            if(moves[i].score<bestScore){
+                bestScore = moves[i].score;
+                bestMove = i;
+            }
+        }
+    }
+    return moves[bestMove];
+}
+
+var bestSpot = minimax(origBoard, aiPlayer);
+
+console.log("index: " + bestSpot.index);
+
 function loop(x)
 {
     if(!bDisabled[x]){ //button does not currently contain X or O and therefore is enabled.
@@ -22,7 +93,7 @@ function loop(x)
         button[x].style.webkitTransform = "rotateY(180deg)";
         
         if(xTurn){
-            content[x] = 'x';
+            content[x] = "X";
 
             setTimeout(function(){
                 ctx[x].lineWidth = 3;
@@ -35,7 +106,8 @@ function loop(x)
                 ctx[x].closePath();
             }, 300);
         }else{
-            content[x] = 'o';
+            /*
+            content[x] = "O";
 
             setTimeout(function(){
                 ctx[x].lineWidth = 3;
@@ -44,6 +116,8 @@ function loop(x)
                 ctx[x].stroke();
                 ctx[x].closePath();
             }, 300);
+            */
+            var bestSpot = minimax(content, aiPlayer);
         }
 
         console.log(checkWin());
