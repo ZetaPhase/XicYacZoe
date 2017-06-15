@@ -227,6 +227,8 @@ var isResult = false;
 //for (var i=1; i<10; i++) content[i] = 'n';
 var content = new Board();
 
+console.log(content.getAvailableMoves());
+
 var xTurn = true; //X:true O:false
 var ai = new AI('O');
 
@@ -251,39 +253,78 @@ function loop(x)
             ctx[x].closePath();
         }, 300);
 
-        setTimeout(function() {
-            var bestMove = ai.getBestMove(content);
-            var row = parseInt(bestMove[0]);
-            var col = parseInt(bestMove[1]);
-            ctxPos = (row*3)+col+1;
-            button[ctxPos].style.webkitTransform = "rotateY(180deg)";
-            content.makeMove('O', [row, col]);
+        if(Math.random()<0.85){
+        	setTimeout(function() {
+	            var bestMove = ai.getBestMove(content);
+	            var row = parseInt(bestMove[0]);
+	            var col = parseInt(bestMove[1]);
+	            ctxPos = (row*3)+col+1;
+	            button[ctxPos].style.webkitTransform = "rotateY(180deg)";
+	            content.makeMove('O', [row, col]);
 
-            setTimeout(function(){
-                ctx[ctxPos].lineWidth = 3;
-                ctx[ctxPos].beginPath();
-                ctx[ctxPos].arc(button[ctxPos].width/2, button[ctxPos].height/2, 40, 0, 2*Math.PI, false);
-                ctx[ctxPos].stroke();
-                ctx[ctxPos].closePath();
-            }, 300);
-            console.log(content.gamestate);
-            console.log(content.checkForWin());
-            if(content.checkForWin()=='X'){
-                setTimeout(function() {
-                        alert("X has Won!");
-                    }, 700);
-            }else if(content.checkForWin()=='O'){
-                setTimeout(function() {
-                        alert("O has Won!");
-                    }, 700);
-            }
+	            setTimeout(function(){
+	                ctx[ctxPos].lineWidth = 3;
+	                ctx[ctxPos].beginPath();
+	                ctx[ctxPos].arc(button[ctxPos].width/2, button[ctxPos].height/2, 40, 0, 2*Math.PI, false);
+	                ctx[ctxPos].stroke();
+	                ctx[ctxPos].closePath();
+	            }, 300);
+	            console.log(content.gamestate);
+	            console.log(content.checkForWin());
+	            if(content.checkForWin()=='X'){
+	                setTimeout(function() {
+	                        alert("X has Won!");
+	                    }, 700);
+	            }else if(content.checkForWin()=='O'){
+	                setTimeout(function() {
+	                        alert("O has Won!");
+	                    }, 700);
+	            }
 
-            xTurn = !xTurn;
-            if(xTurn){
-                document.getElementById('whoseturn').innerHTML = "X Turn";
-            }else{
-                document.getElementById('whoseturn').innerHTML = "O Turn";
-            }
-        }, 300);
+	            xTurn = !xTurn;
+	            if(xTurn){
+	                document.getElementById('whoseturn').innerHTML = "X Turn";
+	            }else{
+	                document.getElementById('whoseturn').innerHTML = "O Turn";
+	            }
+	        }, 300);
+        }else{
+        	setTimeout(function() {
+        		var availSpots = content.getAvailableMoves();
+	        	var pos = availSpots[Math.floor(Math.random()*availSpots.length)];
+	        	var row = parseInt(pos[0]);
+	        	var col = parseInt(pos[1]);
+	        	randMove = (row*3)+col+1;
+	        	button[randMove].style.webkitTransform = "rotateY(180deg)";
+	            content.makeMove('O', [row, col]);
+
+	            setTimeout(function(){
+	                ctx[randMove].lineWidth = 3;
+	                ctx[randMove].beginPath();
+	                ctx[randMove].arc(button[randMove].width/2, button[randMove].height/2, 40, 0, 2*Math.PI, false);
+	                ctx[randMove].stroke();
+	                ctx[randMove].closePath();
+	            }, 300);
+	            console.log(content.gamestate);
+	            console.log(content.checkForWin());
+	            if(content.checkForWin()=='X'){
+	                setTimeout(function() {
+	                        alert("X has Won!");
+	                    }, 700);
+	            }else if(content.checkForWin()=='O'){
+	                setTimeout(function() {
+	                        alert("O has Won!");
+	                    }, 700);
+	            }
+
+	            xTurn = !xTurn;
+	            if(xTurn){
+	                document.getElementById('whoseturn').innerHTML = "X Turn";
+	            }else{
+	                document.getElementById('whoseturn').innerHTML = "O Turn";
+	            }
+        	}, 300)
+        }
+
     }
 }
