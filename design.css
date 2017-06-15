@@ -29,7 +29,7 @@ canvas:hover
     margin: 150px auto 40px;
 }
 
-#reloadButton
+#reloadButton, #githublink
 {
     border: 1px solid #000;
     border-width: 2px;
@@ -43,7 +43,7 @@ canvas:hover
 
 }
 
-#reloadButton:hover
+#reloadButton:hover, #githublink
 {
     font-size: 24px;
     background: #f7eaaa;
