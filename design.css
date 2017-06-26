@@ -43,7 +43,7 @@ canvas:hover
 
 }
 
-#reloadButton:hover, #githublink
+#reloadButton:hover, #githublink:hover
 {
     font-size: 24px;
     background: #f7eaaa;
